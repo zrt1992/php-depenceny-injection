@@ -14,26 +14,6 @@ $config = [
 ];
 
 
-//interface GeolocationService {
-//    public function getCoordinatesFromAddress($address);
-//}
-//
-//class AppleMaps implements GeolocationService
-//{
-//    public function getCoordinatesFromAddress($address)
-//    {
-//        return "apple maps";
-//    }
-//}
-//class GoogleMaps implements GeolocationService
-//{
-//    public function getCoordinatesFromAddress($address)
-//    {
-//        return 'google maps';
-//    }
-//}
-
-
 class StoreService //Database service
 {
     public $geoLocationService;
