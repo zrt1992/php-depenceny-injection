@@ -9,6 +9,7 @@ class Node
 
 }
 
+
 class BinaryTree
 {
     public $root;
@@ -20,19 +21,22 @@ class BinaryTree
         $this->root = $node;
     }
 
-    public function addNode($current,$node){
+    public function addNode($current, $node)
+    {
         if ($node->data > $current->data) {
-            if ($current->right == null)  return $current->right=$node;
-            return $this->addNode($current->right,$node);
+            if ($current->right == null) return $current->right = $node;
+            return $this->addNode($current->right, $node);
         } else {
-            if ($current->left == null) return $current->left=$node;
-           return $this->addNode($current->left,$node);
+            if ($current->left == null) return $current->left = $node;
+            return $this->addNode($current->left, $node);
         }
     }
-    public function inOrderTreversal ($node){
-        if($node->left !=null)         $this->inOrderTreversal($node->left);
-        print($node->data." ");
-        if($node->right !=null) $this->inOrderTreversal($node->right);
+
+    public function inOrderTreversal($node)
+    {
+        if ($node->left != null) $this->inOrderTreversal($node->left);
+        print($node->data . " ");
+        if ($node->right != null) $this->inOrderTreversal($node->right);
     }
 
 }
@@ -48,10 +52,10 @@ $node4->data = 3;
 $node5 = new Node();
 $node5->data = 0;
 $binarytree = new BinaryTree($node1);
-$result = $binarytree->addNode($binarytree->root,$node2);
-$result = $binarytree->addNode($binarytree->root,$node3);
-$result1 = $binarytree->addNode($binarytree->root,$node4);
-$result = $binarytree->addNode($binarytree->root,$node5);
+$result = $binarytree->addNode($binarytree->root, $node2);
+$result = $binarytree->addNode($binarytree->root, $node3);
+$result1 = $binarytree->addNode($binarytree->root, $node4);
+$result = $binarytree->addNode($binarytree->root, $node5);
 $binarytree->inOrderTreversal($binarytree->root);
 
 
