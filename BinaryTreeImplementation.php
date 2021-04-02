@@ -15,7 +15,6 @@ class BinaryTree
     public $root;
     public $current;
 
-
     function __construct($node)
     {
         $this->root = $node;
