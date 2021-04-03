@@ -20,7 +20,7 @@ class BinaryTree
 
     public function addNode($current, $node)
     {
-        if ($node->data > $current->data) {
+        if ($node->data >= $current->data) {
             if ($current->right == null) return $current->right = $node;
             return $this->addNode($current->right, $node);
         } else {
@@ -36,42 +36,59 @@ class BinaryTree
         if ($node->right != null) $this->inOrderTreversal($node->right);
     }
 
-    public function findNode($current, $node)
+    public function findNode($current, $node, $previous = null)
     {
         if ($node->data == $current->data) {
-            return $current;
+            return [
+                'current_node' => $current,
+                'previous' => $previous
+            ];
         } else {
 
             if ($node->data > $current->data) {
                 if ($current->right == null) return false;
-                return [
-                    'current_node' => $this->findNode($current->right, $node),
-                    'previous' => $current
-                ];
+                return $this->findNode($current->right, $node, $current);
             } else {
                 if ($current->left == null) return false;
-                return [
-                    'current_node' => $this->findNode($current->left, $node),
-                    'previous' => $current
-                ];
+                return $this->findNode($current->left, $node, $current);
             }
         }
     }
 
-    public function deleteNode($rootNode,$node){
-        $node = $this->findNode($rootNode,$node);
+    public function deleteNode($rootNode, $node)
+    {
+        $node = $this->findNode($rootNode, $node);
         $previousNode = $node['previous'];
         $currentNode = $node['current_node'];
-        $smallestNode = $this->findSmallestNode($currentNode->right);
+        if ($currentNode->right == null) {
+            $previousNode->left = $currentNode->left;
+            $currentNode->left == null;
+            $currentNode->right = null;
+            return;
+        }
+
+        $temp = $this->findSmallestNode($currentNode->right, $previousNode);
+        $smallestNode = $temp['smallest'];
+        $previoussmallestNode = $temp['previous_smallest'];
+
+        $previoussmallestNode->left = null;
+        $previoussmallestNode->right = null;
+
         $previousNode->right = $smallestNode;
         $smallestNode->left = $currentNode->left;
         $smallestNode->right = $currentNode->right;
+        $currentNode->left = null;
+        $currentNode->right = null;
     }
 
-    public function findSmallestNode($current)
+    public function findSmallestNode($current, $previous = null)
     {
-        if ($current->left == null) return $current;
-        return $this->findSmallestNode($current->left);
+        if ($current == null) return null;
+        if ($current->left == null) return [
+            'smallest' => $current,
+            'previous_smallest' => $previous
+        ];
+        return $this->findSmallestNode($current->left, $current);
 
     }
 
@@ -82,28 +99,36 @@ $node1 = new Node();
 $node1->data = 1;
 $node2 = new Node();
 $node2->data = 2;
-$node3 = new Node();
-$node3->data = 7;
-$node4 = new Node();
-$node4->data = 10;
-$node5 = new Node();
-$node5->data = 0;
+$node7 = new Node();
+$node7->data = 7;
+$node10 = new Node();
+$node10->data = 10;
+$node0 = new Node();
+$node0->data = 0;
 $node6 = new Node();
 $node6->data = 6;
-$node7 = new Node();
-$node7->data = 5;
+$node5 = new Node();
+$node5->data = 5;
+$node4 = new Node();
+$node4->data = 4;
 $node11 = new Node();
-$node11->data = -5;
+$node11->data = 1;
 
-$deleteNode = new Node();
-$deleteNode->data = 2;
 
 $binarytree = new BinaryTree($node1);
-$result2 = $binarytree->addNode($binarytree->root, $node2);
-$result3 = $binarytree->addNode($binarytree->root, $node3);
-$result1 = $binarytree->addNode($binarytree->root, $node4);
-$result = $binarytree->addNode($binarytree->root, $node5);
-$result6 = $binarytree->addNode($binarytree->root, $node6);
-$result = $binarytree->addNode($binarytree->root, $node7);
-$node11 = $binarytree->addNode($binarytree->root, $node11);
-$binarytree->deleteNode($binarytree->root,$deleteNode);
+$binarytree->addNode($binarytree->root, $node2);
+$binarytree->addNode($binarytree->root, $node7);
+$binarytree->addNode($binarytree->root, $node10);
+$binarytree->addNode($binarytree->root, $node6);
+$binarytree->addNode($binarytree->root, $node5);
+$binarytree->addNode($binarytree->root, $node0);
+$binarytree->inOrderTreversal($binarytree->root);
+
+$binarytree->deleteNode($binarytree->root, $node2);
+echo '<br>';
+$binarytree->inOrderTreversal($binarytree->root);
+
+$binarytree->deleteNode($node5, $node6);
+echo '<br>';
+$binarytree->inOrderTreversal($binarytree->root);
+
