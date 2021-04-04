@@ -58,6 +58,7 @@ class BinaryTree
     public function deleteNode($rootNode, $node)
     {
         $node = $this->findNode($rootNode, $node);
+        if ($node == false) return false;
         $previousNode = $node['previous'];
         $currentNode = $node['current_node'];
         if ($currentNode->right == null) {
@@ -124,11 +125,11 @@ $binarytree->addNode($binarytree->root, $node5);
 $binarytree->addNode($binarytree->root, $node0);
 $binarytree->inOrderTreversal($binarytree->root);
 
+echo '<br>';
+$binarytree->inOrderTreversal($binarytree->root);
+echo '<br>';
 $binarytree->deleteNode($binarytree->root, $node2);
 echo '<br>';
-$binarytree->inOrderTreversal($binarytree->root);
+$binarytree->deleteNode($binarytree->root, $node2);
 
-$binarytree->deleteNode($node5, $node6);
-echo '<br>';
-$binarytree->inOrderTreversal($binarytree->root);
 
