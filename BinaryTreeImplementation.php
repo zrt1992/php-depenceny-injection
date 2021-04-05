@@ -1,4 +1,12 @@
 <?php
+function dd()
+{
+    echo '<pre>';
+    array_map(function ($x) {
+        var_dump($x);
+    }, func_get_args());
+    die;
+}
 
 class Node
 {
@@ -55,32 +63,6 @@ class BinaryTree
         }
     }
 
-    public function deleteNode($rootNode, $node)
-    {
-        $node = $this->findNode($rootNode, $node);
-        if ($node == false) return false;
-        $previousNode = $node['previous'];
-        $currentNode = $node['current_node'];
-        if ($currentNode->right == null) {
-            $previousNode->left = $currentNode->left;
-            $currentNode->left == null;
-            $currentNode->right = null;
-            return;
-        }
-
-        $temp = $this->findSmallestNode($currentNode->right, $previousNode);
-        $smallestNode = $temp['smallest'];
-        $previoussmallestNode = $temp['previous_smallest'];
-
-        $previoussmallestNode->left = null;
-        $previoussmallestNode->right = null;
-
-        $previousNode->right = $smallestNode;
-        $smallestNode->left = $currentNode->left;
-        $smallestNode->right = $currentNode->right;
-        $currentNode->left = null;
-        $currentNode->right = null;
-    }
 
     public function findSmallestNode($current, $previous = null)
     {
@@ -93,8 +75,49 @@ class BinaryTree
 
     }
 
+    public function deleteNode($root, $key, $previous = null)
+    {
+        if ($root == null) return;
+        if ($key < $root->data) {
+           return $this->deleteNode($root->left, $key, $previous = $root);
+        }
+        if ($key > $root->data) {
+           return $this->deleteNode($root->right, $key, $previous = $root);
+        }
+        if ($root->data == $key) {
+            if ($root->left == null && $root->right!=null) {
+                $previous->right=$root->right;
+            }
+            if ($root->right == null && $root->left != null) {
+                $previous->left=$root->left;
+            }
+            if ($root->right == null && $root->left == null) {
+               if($root->data>=$previous->data){
+                   $previous->right = null;
+               }else {
+                   $previous->left = null;
+               }
+            }
+            if($root->right !=null && $root->left!=null){
+                $min = $this->minValueNode($root->right,$root->right->data,$root);
+                $root->data = $min->data;
+                $this->deleteNode($root->right,$min->data,$root);
+            }
 
+
+        }
+    }
+
+    function minValueNode($node)
+    {
+        $current = $node;
+        while ($current->left != null) {
+            $current = $current->left;
+        }
+        return $current;
+    }
 }
+
 
 $node1 = new Node();
 $node1->data = 1;
@@ -108,12 +131,13 @@ $node0 = new Node();
 $node0->data = 0;
 $node6 = new Node();
 $node6->data = 6;
-$node5 = new Node();
-$node5->data = 5;
 $node4 = new Node();
 $node4->data = 4;
-$node11 = new Node();
-$node11->data = 1;
+
+$node5 = new Node();
+$node5->data = 5;
+$node8 = new Node();
+$node5->data = 8;
 
 
 $binarytree = new BinaryTree($node1);
@@ -121,15 +145,15 @@ $binarytree->addNode($binarytree->root, $node2);
 $binarytree->addNode($binarytree->root, $node7);
 $binarytree->addNode($binarytree->root, $node10);
 $binarytree->addNode($binarytree->root, $node6);
+$binarytree->addNode($binarytree->root, $node4);
 $binarytree->addNode($binarytree->root, $node5);
 $binarytree->addNode($binarytree->root, $node0);
-$binarytree->inOrderTreversal($binarytree->root);
-
-echo '<br>';
+$binarytree->addNode($binarytree->root, $node8);
 $binarytree->inOrderTreversal($binarytree->root);
 echo '<br>';
-$binarytree->deleteNode($binarytree->root, $node2);
-echo '<br>';
-$binarytree->deleteNode($binarytree->root, $node2);
-
-
+$delteNodes = [7];
+foreach ($delteNodes as $node){
+    $binarytree->deleteNode($binarytree->root, $node);
+    echo '<br>';
+    $binarytree->inOrderTreversal($binarytree->root);
+}
