@@ -39,6 +39,7 @@ class BinaryTree
 
     public function inOrderTreversal($node)
     {
+        if($node==null) return;
         if ($node->left != null) $this->inOrderTreversal($node->left);
         print($node->data . " ");
         if ($node->right != null) $this->inOrderTreversal($node->right);
@@ -87,13 +88,33 @@ class BinaryTree
         }
         if ($root->data == $key) {
             if ($root->left == null && $root->right != null) {
-                $previous->right = $root->right;
+                if($previous==null) {
+                    $this->root=$root->right;
+                    //dd($this->root,$root);
+                }
+                elseif ($previous->data >= $root->right->data) {
+                    $previous->left = $root->right;
+                } else {
+                    $previous->right = $root->right;
+                }
             }
             if ($root->right == null && $root->left != null) {
-                $previous->left = $root->left;
+                if($previous==null) {
+                    $this->root=$root->left;
+                }
+                elseif ($previous->data >= $root->left->data) {
+                    $previous->left = $root->left;
+                } else {
+                    $previous->right = $root->right;
+                }
             }
             if ($root->right == null && $root->left == null) {
-                if ($root->data >= $previous->data) {
+                if($previous==null) {
+                      $this->root =null;
+
+                }
+                elseif ($root->data >= $previous->data) {
+//                    dd($this->root);
                     $previous->right = null;
                 } else {
                     $previous->left = null;
@@ -141,18 +162,18 @@ $node8 = new Node();
 $node8->data = 8;
 
 
-$binarytree = new BinaryTree($node1);
-$binarytree->addNode($binarytree->root, $node0);
+$binarytree = new BinaryTree($node0);
 $binarytree->addNode($binarytree->root, $node2);
+//$binarytree->addNode($binarytree->root, $node2);
 $binarytree->addNode($binarytree->root, $node7);
-$binarytree->addNode($binarytree->root, $node10);
 $binarytree->addNode($binarytree->root, $node6);
 $binarytree->addNode($binarytree->root, $node4);
 $binarytree->addNode($binarytree->root, $node5);
 $binarytree->addNode($binarytree->root, $node8);
 $binarytree->inOrderTreversal($binarytree->root);
 
-$delteNodes = [40];
+//dd($binarytree->root);
+$delteNodes = [0];
 foreach ($delteNodes as $node) {
     $binarytree->deleteNode($binarytree->root, $node);
     echo '<br>';
