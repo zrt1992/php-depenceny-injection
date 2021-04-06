@@ -1,23 +1,38 @@
 <?php
-class Node
+
+$store = [];
+function lcs($X, $Y, $m, $n)
 {
-    public $data;
-    public $right = null;
-    public $left = null;
+    if($m == 0 || $n == 0)
+        return 0;
+    else if ($X[$m - 1] == $Y[$n - 1])
+        return 1 + lcs($X, $Y,
+                $m - 1, $n - 1);
+    else
+        return max(lcs($X, $Y, $m, $n - 1),
+            lcs($X, $Y, $m - 1, $n));
+}
+function lcsDy($X, $Y, $m, $n){
+    global $store;
+    if (isset($store[$m . $n])) return $store[$m . $n];
+    if ($m == 0 || $n == 0) {
+        return 0;
+    } else if ($X[$m - 1] == $Y[$n - 1]) {
+        $store[$m . $n] = 1 + lcsDy($X, $Y, $m - 1, $n - 1);
+        return $store[$m . $n];
+    } else {
+        $store[$m . $n] = max(lcsDy($X, $Y, $m, $n - 1), lcsDy($X, $Y, $m - 1, $n));
+        return $store[$m . $n];
+    }
 }
 
+// Driver Code
+$X = "AGGTABCVXVXCTCVXCVCXCV";
+$Y = "GXTXAYVXVXCVXVX";
+echo "Length of LCS is ";
+echo lcs($X, $Y, strlen($X),
+    strlen($Y));
 
-$node6 = new Node();
-$node6->data=6;
-$node5 = new Node();
-$node5->data = 5;
-$node5->left =$node6;
 
-$root = $node5;
-$root = $root->left;
-
-//var_dump(unset($root));
-unset($root);
-var_dump($node5);die;
 
 
