@@ -12,6 +12,7 @@ function lcs($X, $Y, $m, $n)
         return max(lcs($X, $Y, $m, $n - 1),
             lcs($X, $Y, $m - 1, $n));
 }
+/** lcsDy is dynamic programming implementation of lcs */
 function lcsDy($X, $Y, $m, $n){
     global $store;
     if (isset($store[$m . $n])) return $store[$m . $n];
