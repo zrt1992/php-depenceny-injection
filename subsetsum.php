@@ -7,7 +7,6 @@ function isSubsetSum(&$set, $size, $i, $sum, $key)
 
     if ($i == $size) {
         if (isset($total[$sum + $key])) {
-          //  echo $sum + $key." ";
             return true;
         } else {
             $total[$sum]=0;
