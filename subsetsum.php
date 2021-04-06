@@ -14,8 +14,6 @@ function isSubsetSum(&$set, $size, $i, $sum, $key)
         }
     }
     return isSubsetSum($set, $size, $i + 1, $sum + $set[$i], $key) ||   isSubsetSum($set, $size, $i + 1, $sum, $key);
-
-
 }
 
 $set = [1, 2, 3];
