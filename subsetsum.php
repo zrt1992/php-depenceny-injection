@@ -1,5 +1,6 @@
 <pre/>
 <?php
+
 $total = [];
 function isSubsetSum(&$set, $size, $i, $sum, $key)
 {
@@ -9,16 +10,29 @@ function isSubsetSum(&$set, $size, $i, $sum, $key)
         if (isset($total[$sum + $key])) {
             return true;
         } else {
-            $total[$sum]=0;
-            return  false;
+            $total[$sum] = 0;
+            return false;
         }
     }
-    return isSubsetSum($set, $size, $i + 1, $sum + $set[$i], $key) ||   isSubsetSum($set, $size, $i + 1, $sum, $key);
+    return isSubsetSum($set, $size, $i + 1, $sum + $set[$i], $key) || isSubsetSum($set, $size, $i + 1, $sum, $key);
 }
 
-$set = [1, 2, 3];
-var_dump(isSubsetSum($set, sizeof($set), 0, 0, 12));
-print_r($total);
+function SubsetSum(&$set, $size, $i, $sum, $key)
+{
+    if ($i == $size) {
+        echo $sum."<br> ";
+        if ($key == $sum && $sum!=0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return SubsetSum($set, $size, $i + 1, $sum + $set[$i], $key) || SubsetSum($set, $size, $i + 1, $sum, $key);
+}
+
+$set = [1, 2];
+var_dump(SubsetSum($set, sizeof($set), 0, 0, 0));
+//print_r($total);
 
 
 
