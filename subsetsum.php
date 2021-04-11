@@ -20,8 +20,8 @@ function isSubsetSum(&$set, $size, $i, $sum, $key)
 function SubsetSum(&$set, $size, $i, $sum, $key)
 {
     if ($i == $size) {
-        echo $sum."<br> ";
-        if ($key == $sum && $sum!=0) {
+        echo $sum . "<br> ";
+        if ($key == $sum && $sum != 0) {
             return true;
         } else {
             return false;
