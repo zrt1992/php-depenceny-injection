@@ -34,7 +34,7 @@ function findMinInsertions1($str, $l, $h)
 
 }
 
-$str = "abcdefghijklmnopqrstuvwxyz";
+$str = "abc";
 echo findMinInsertions1($str, 0, strlen($str) - 1);
 echo '<pre>';
 //print_r($store);
